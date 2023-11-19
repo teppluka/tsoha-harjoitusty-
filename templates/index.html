@@ -1,0 +1,10 @@
+<title>Etusivu</title>
+<h1>Etusivu</h1>
+<h2>Omat reseptit:</h2>
+<hr>
+{% for recipe in recipes %}
+<a href="/recipe/{{recipe.id}}">{{recipe.name}}</a>
+<p></p>
+{% endfor %}
+<hr>
+<a href="/form">Uusi resepti</a>
