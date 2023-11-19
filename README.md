@@ -14,9 +14,9 @@
 - Käyttäjä näkee etusivulla reseptien lisäksi kaverilistansa ja uudet kaveripyynnöt, jotka hän voi hyväksyä tai hylätä.
 - Käyttäjä voi siirtyä kaverilistansa kautta toisen käyttäjän sivulle, jossa hän näkee tämän käyttäjän reseptit ja voi halutessaan poistaa käyttäjän kavereistaan.
 
-## Sovelluksen käyttö
+## Sovelluksen asennus
 
-Siirry virtuaaliymäristöön ajamalla sovelluskansiossa komento "source venv/bin/activate". Asenna tämän jälkeen tarvittavat kirjasot komennoilla "pip install flask", "pip install flask-sqlalchemy" ja "pip install psycopg2". Asenna koneellesi myös PostgreSQL.
+Siirry virtuaaliymäristöön ajamalla sovelluskansiossa komento "source venv/bin/activate". Asenna tämän jälkeen tarvittavat kirjasot komennoilla "pip install flask", "pip install flask-sqlalchemy" ja "pip install psycopg2". Asenna koneellesi myös PostgreSQL ja käynnistä se kommennolla "start-pg.sh".
 
 Ennen sovelluksen ensimmäistä käyttökertaa siirry PostgreSQL-tulkkiin komennolla "psql" ja aja tulkissa komento "CREATE TABLE recipes (id SERIAL PRIMARY KEY, name TEXT, ingredients TEXT, steps TEXT);".
 
