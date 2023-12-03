@@ -28,3 +28,7 @@ Käynnistä sovellus ajamalla komento "flask run" ja siirtymällä viimeiselle r
 - Kirjautumisen jälkeen etusivulla voi luoda uusia reseptejä tai siirtyä luotujen reseptien sivuille sekä kirjautua ulos.
 - Uudelle reseptille kirjoitetaan luontivaiheessa nimi, ainesosat ja valmistusohje.
 - Reseptin sivulla näkyvät sen tiedot, mutta tekstin muotoilu on vielä keskeneräinen.
+
+## Tiedossa olevat ongelmat
+
+- Muiden käyttäjien reseptejä pääsee katsomaan kirjoittamalla itse URL-osoitteen.
