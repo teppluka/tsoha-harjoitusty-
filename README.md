@@ -16,9 +16,9 @@
 
 ## Sovelluksen asennus
 
-Luo virtuaaliympäristö ja käynnistä se komennoilla "-m venv venv" ja "source venv/bin/activate". Asenna tarvittavat kirjastot komennolla "pip install -r requirements.txt". Asenna koneellesi myös PostgreSQL ja käynnistä se kommennolla "start-pg.sh".
+Luo virtuaaliympäristö komennolla "python3 -m venv venv" ja käynnistä se komennolla "source venv/bin/activate". Asenna tarvittavat kirjastot komennolla "pip install -r requirements.txt". Asenna koneellesi myös PostgreSQL ja käynnistä se kommennolla "start-pg.sh".
 
-Ennen sovelluksen ensimmäistä käyttökertaa luo tarvittavat taulut komennolla "psql < schema.sql".
+Ennen sovelluksen ensimmäistä käyttökertaa luo tarvittavat taulut komennolla "psql < schema.sql". Luo myös tiedosto ".env" ja lisää siihen rivi "SECRET_KEY= *satunnainen avain* ".
 
 Käynnistä sovellus ajamalla komento "flask run" ja siirtymällä viimeiselle riville tulostuneeseen osoitteeseen.
 
