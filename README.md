@@ -4,7 +4,7 @@
 
 - Käyttäjä voi luoda uuden tunnuksen sekä kirjautua sisään ja ulos.
 - Käyttäjä voi luoda omia reseptejään sekä poistaa tai muokata luomiaan reseptejä.
-  - Käyttäjä kirjoittaa reseptiin nimen, ainekset sekä niiden määrät ja yksitellen reseptin vaiheet.
+  - Käyttäjä kirjoittaa reseptiin nimen, ainekset ja vaiheet.
 - Käyttäjä näkee etusivulla omat reseptinsä, ja voi siirtyä niiden sivuille.
 - Käyttäjä voi hakea etusivulla reseptejä nimen perusteella.
 
@@ -16,14 +16,15 @@
 
 ## Sovelluksen asennus
 
-Siirry virtuaaliymäristöön ajamalla sovelluskansiossa komento "source venv/bin/activate". Asenna tämän jälkeen tarvittavat kirjasot komennoilla "pip install flask", "pip install flask-sqlalchemy" ja "pip install psycopg2". Asenna koneellesi myös PostgreSQL ja käynnistä se kommennolla "start-pg.sh".
+Luo virtuaaliympäristö ja käynnistä se komennoilla "-m venv venv" ja "source venv/bin/activate". Asenna tarvittavat kirjastot komennolla "pip install -r requirements.txt". Asenna koneellesi myös PostgreSQL ja käynnistä se kommennolla "start-pg.sh".
 
-Ennen sovelluksen ensimmäistä käyttökertaa siirry PostgreSQL-tulkkiin komennolla "psql" ja aja tulkissa komento "CREATE TABLE recipes (id SERIAL PRIMARY KEY, name TEXT, ingredients TEXT, steps TEXT);".
+Ennen sovelluksen ensimmäistä käyttökertaa luo tarvittavat taulut komennolla "psql < schema.sql".
 
 Käynnistä sovellus ajamalla komento "flask run" ja siirtymällä viimeiselle riville tulostuneeseen osoitteeseen.
 
 ## Nykyinen toiminnallisuus
 
-- Etusivulla voi luoda uusia reseptejä tai siirtyä luotujen reseptien sivuille.
+- Etusivulla voi kirjautua sisään tai luoda uuden käyttäjän.
+- Kirjautumisen jälkeen etusivulla voi luoda uusia reseptejä tai siirtyä luotujen reseptien sivuille sekä kirjautua ulos.
 - Uudelle reseptille kirjoitetaan luontivaiheessa nimi, ainesosat ja valmistusohje.
 - Reseptin sivulla näkyvät sen tiedot, mutta tekstin muotoilu on vielä keskeneräinen.

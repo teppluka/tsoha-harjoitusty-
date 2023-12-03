@@ -1,5 +1,5 @@
+{% if session.user_id %}
 <title>Etusivu</title>
-<h1>Etusivu</h1>
 <h2>Omat reseptit:</h2>
 <hr>
 {% for recipe in recipes %}
@@ -8,3 +8,17 @@
 {% endfor %}
 <hr>
 <a href="/form">Uusi resepti</a>
+<br>
+<br>
+<a href="/logout">Kirjaudu ulos</a>
+
+{% else %}
+<form action="/login" method="POST">
+<p>Tunnus:<br>
+<input type="text" name="username"></p>
+<p>Salasana:<br>
+<input type="password" name="password"></p>
+<input type="submit" value="Kirjaudu">
+</form>
+<a href="/register">Luo käyttäjä</a>
+{% endif %}
