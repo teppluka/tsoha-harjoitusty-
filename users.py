@@ -30,10 +30,15 @@ def login():
 def register():
     username = request.form["username"]
     password = request.form["password"]
-    hash_value = generate_password_hash(password)
+    sql = text("SELECT COUNT(*) FROM users3 WHERE username=:username")
+    result = db.session.execute(sql, {"username":username}).fetchone()
+    if result[0] != 0:
+        return redirect("/register")
+    else:
+        hash_value = generate_password_hash(password)
 
-    sql = text("INSERT INTO users3 (username, password) VALUES (:username, :password)")
-    db.session.execute(sql, {"username":username, "password":hash_value})
-    db.session.commit()
+        sql = text("INSERT INTO users3 (username, password) VALUES (:username, :password)")
+        db.session.execute(sql, {"username":username, "password":hash_value})
+        db.session.commit()
 
     return
