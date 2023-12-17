@@ -27,9 +27,16 @@ def recipe(id):
         message = "Ei oikeutta nähdä sivua"
         return render_template("error.html", message=message)
     
-    info = recipes.recipe(id)
-    return render_template("recipe.html", id=info[0], name=info[1], ingredients=info[2], steps=info[3])
+    delete = users.delete_possible(id)
 
+    info = recipes.recipe(id)
+    return render_template("recipe.html", id=info[0], name=info[1], ingredients=info[2], steps=info[3], delete=delete)
+
+@app.route("/delete/<int:id>")
+def delete(id):
+    if users.delete_possible(id):
+        recipes.delete(id)
+        return redirect("/")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():

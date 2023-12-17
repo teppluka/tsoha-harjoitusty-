@@ -7,7 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import text
 
 def index():
-    sql = text("SELECT * FROM recipes WHERE user_id=:user_id")
+    sql = text("SELECT * FROM recipes WHERE user_id=:user_id AND visible=TRUE")
     result = db.session.execute(sql, {"user_id":users.user_id()})
     recipes = result.fetchall()
     return recipes
@@ -25,7 +25,7 @@ def create(name, ingredients, steps):
     for i in txt:
         stp.append(i.strip())
 
-    sql = text("INSERT INTO recipes (name, user_id) VALUES (:name, :user)")
+    sql = text("INSERT INTO recipes (name, user_id, visible) VALUES (:name, :user, TRUE)")
     db.session.execute(sql, {"name":name, "user":users.user_id()})
     for ingredient in ing:
         sql = text("INSERT INTO ingredients (name, recipe) VALUES (:ingredient, :id)")
@@ -45,7 +45,7 @@ def result():
     return info
 
 def recipe(id):
-    sql = text("SELECT name FROM recipes WHERE id=:id")
+    sql = text("SELECT name FROM recipes WHERE id=:id AND visible=TRUE")
     result = db.session.execute(sql, {"id":id})
     name = result.fetchone()
     sql = text("SELECT name FROM ingredients WHERE recipe=:id")
@@ -57,7 +57,12 @@ def recipe(id):
     return [id, name[0], ingredients, steps]
 
 def friend_recipes(id):
-    sql = text("SELECT * FROM recipes WHERE user_id=:user_id")
+    sql = text("SELECT * FROM recipes WHERE user_id=:user_id AND visible=TRUE")
     result = db.session.execute(sql, {"user_id":id})
     recipes = result.fetchall()
     return recipes
+
+def delete(id):
+    sql = text("UPDATE RECIPES SET visible=FALSE WHERE id=:id")
+    db.session.execute(sql, {"id":id})
+    db.session.commit()
