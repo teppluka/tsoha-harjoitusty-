@@ -66,15 +66,21 @@ def friend_requests():
     return result
 
 def send_request(id):
+    if request_possible(id):
+        sql = text("INSERT INTO friendrequests (sender, receiver, visible) VALUES (:sender, :receiver, TRUE)")
+        db.session.execute(sql, {"sender":user_id(), "receiver":id})
+        db.session.commit()
+
+def request_possible(id):
     sql = text("SELECT COUNT(*) FROM friendrequests WHERE (sender=:sender AND receiver=:receiver) OR (sender=:receiver AND receiver=:sender) AND visible = TRUE")
     result = db.session.execute(sql, {"sender":user_id(), "receiver":id}).fetchone()
     if result[0] == 0:
         sql = text("SELECT COUNT(*) FROM friends WHERE user1=:user1 AND user2=:user2")
         result = db.session.execute(sql, {"user1":user_id(), "user2":id}).fetchone()
         if result[0] == 0:
-            sql = text("INSERT INTO friendrequests (sender, receiver, visible) VALUES (:sender, :receiver, TRUE)")
-            db.session.execute(sql, {"sender":user_id(), "receiver":id})
-            db.session.commit()
+            if id != user_id():
+                return True
+    return False
 
 def accept(id, r_id):
     sql = text("INSERT INTO friends (user1, user2) VALUES (:user1, :user2)")

@@ -2,7 +2,7 @@
 {% block title %}Kaverit{% endblock %}
 
 {% block content %}
-Kaveripyynnöt:
+Kaveripyynnöt: <br>
 <br>
 {% for request in requests %}
 <a href="/user/{{request.id}}">{{request.username}}</a>
@@ -12,10 +12,18 @@ Kaveripyynnöt:
 <br>
 <br>
 {% endfor %}
-Kaverit:
+<hr>
+Kaverit: <br>
 <br>
 {% for friend in friends %}
 <a href="/user/{{friend.id}}">{{friend.username}}</a>
 <br>
 {% endfor %}
+<hr>
+<form action="/search" method="GET">
+<p>Hae käyttäjää:</p>
+<input type="text" name="query">
+<br>
+<input type="submit" value="Lähetä">
+</form>
 {% endblock %}

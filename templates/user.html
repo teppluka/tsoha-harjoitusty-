@@ -3,11 +3,11 @@
 
 {% block content %}
 <h2>{{username}}</h2>
-<br>
+{% if possible %}
 <a href="/request/{{id}}">Lähetä kaveripyyntö</a>
-<br>
-
-
+{% endif %}
+<hr>
+<h3>Reseptit:</h3>
 {% for recipe in recipes %}
 <a href="/recipe/{{recipe.id}}">{{recipe.name}}</a>
 <br>

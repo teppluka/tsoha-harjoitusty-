@@ -70,7 +70,8 @@ def search():
 def user(id):
     username = users.user(id)
     recipelist = recipes.friend_recipes(id)
-    return render_template("user.html", id=id, username=username, recipes=recipelist)
+    possible = users.request_possible(id)
+    return render_template("user.html", id=id, username=username, recipes=recipelist, possible=possible)
 
 @app.route("/friends")
 def friends():
