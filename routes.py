@@ -22,6 +22,11 @@ def result():
 
 @app.route("/recipe/<int:id>")
 def recipe(id):
+    allow = users.allow(id)
+    if not allow:
+        message = "Ei oikeutta nähdä sivua"
+        return render_template("error.html", message=message)
+    
     info = recipes.recipe(id)
     return render_template("recipe.html", id=info[0], name=info[1], ingredients=info[2], steps=info[3])
 

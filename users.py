@@ -40,8 +40,7 @@ def register():
         sql = text("INSERT INTO users (username, password) VALUES (:username, :password)")
         db.session.execute(sql, {"username":username, "password":hash_value})
         db.session.commit()
-
-    return
+    return True
 
 def search(query):
     sql = text("SELECT id, username FROM users WHERE username LIKE :query")
@@ -89,3 +88,12 @@ def reject(r_id):
     sql = text("UPDATE friendrequests SET visible=FALSE WHERE id=:id")
     db.session.execute(sql, {"id":r_id})
     db.session.commit()
+
+def allow(recipe):
+    sql = text("SELECT user_id FROM recipes WHERE id=:id")
+    owner = db.session.execute(sql, {"id":recipe}).fetchone()[0]
+    if owner == user_id():
+        return True
+    sql = text("SELECT COUNT(*) FROM friends WHERE user1=:user1 AND user2=:user2")
+    result = db.session.execute(sql, {"user1":owner, "user2":user_id()}).fetchone()[0]
+    return result == 1
