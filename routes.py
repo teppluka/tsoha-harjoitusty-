@@ -13,6 +13,7 @@ def index():
 def form():
     return render_template("form.html")
 
+
 @app.route("/result", methods=["POST"])
 def result():
     info = recipes.result()
@@ -46,7 +47,9 @@ def register():
     if request.method == "GET":
         return render_template("register.html")
     if request.method == "POST":
-        users.register()
+        if not users.register():
+            message = "Käyttäjätunnus on varattu"
+            return render_template("error.html", message=message)
         return redirect("/")
 
 @app.route("/search", methods=["GET"])
@@ -82,5 +85,5 @@ def accept(id, r_id):
 
 @app.route("/reject/<int:id>/<int:r_id>")
 def reject(id, r_id):
-    users.reject(id, r_id)
+    users.reject(r_id)
     return redirect("/friends")

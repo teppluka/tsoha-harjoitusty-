@@ -1,7 +1,13 @@
 <h1>{{name}}</h1>
 <hr>
-{{ingredients}}
+<h3>Ainesosat:</h3>
+{% for ingredient in ingredients %}
+{{ingredient[0]}} <br>
+{% endfor %}
 <hr>
-{{steps}}
+<h3>Ohje:</h3>
+{% for step in steps %}
+{{step[0]}} <br>
+{% endfor %}
 <hr>
 <a href="/">Palaa etusivulle</a>
