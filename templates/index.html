@@ -1,9 +1,8 @@
 {% if session.user_id %}
-<a href="/logout">Kirjaudu ulos</a>
-<br>
-<a href="/friends">Kaverit</a>
-<br>
-<title>Etusivu</title>
+{% extends "layout.html" %}
+{% block title %}Etusivu{% endblock %}
+
+{% block content %}
 <h2>Omat reseptit:</h2>
 <hr>
 {% for recipe in recipes %}
@@ -20,9 +19,10 @@
 <br>
 <input type="submit" value="Lähetä">
 </form>
-
+{% endblock %}
 
 {% else %}
+<title>Kirjautuminen</title>
 <form action="/login" method="POST">
 <p>Tunnus:<br>
 <input type="text" name="username"></p>

@@ -1,5 +1,10 @@
+{% extends "layout.html" %}
+{% block title %}Haku{% endblock %}
+
+{% block content %}
 {% for user in userlist %}
 <a href="/user/{{user.id}}">{{user.username}}</a>
 <br>
 <br>
 {% endfor %}
+{% endblock %}

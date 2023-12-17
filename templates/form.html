@@ -1,3 +1,7 @@
+{% extends "layout.html" %}
+{% block title %}Uusi resepti{% endblock %}
+
+{% block content %}
 <form action="/result" method="POST">
 Reseptin nimi: <br>
 <textarea name="name" rows="1" cols="30"></textarea>
@@ -13,3 +17,4 @@ Ohje: <br>
 <input type="submit" value="Tallenna">
 
 </form>
+{% endblock %}

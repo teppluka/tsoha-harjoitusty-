@@ -1,3 +1,7 @@
+{% extends "layout.html" %}
+{% block title %}Tallennus onnistui{% endblock %}
+
+{% block content %}
 <h3>Resepti tallennettu</h3>
 <p>
 {{name}}
@@ -9,5 +13,4 @@
 {% for step in steps %}
 {{step}} <br>
 {% endfor %}
-<p>
-<a href="/">Palaa etusivulle</a>
+{% endblock %}

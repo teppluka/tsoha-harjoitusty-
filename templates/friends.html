@@ -1,3 +1,7 @@
+{% extends "layout.html" %}
+{% block title %}Kaverit{% endblock %}
+
+{% block content %}
 Kaveripyynnöt:
 <br>
 {% for request in requests %}
@@ -14,3 +18,4 @@ Kaverit:
 <a href="/user/{{friend.id}}">{{friend.username}}</a>
 <br>
 {% endfor %}
+{% endblock %}
