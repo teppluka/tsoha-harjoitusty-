@@ -36,3 +36,8 @@ def recipe(id):
     steps = result.fetchone()
     return [id, name[0], ingredients[0], steps[0]]
 
+def friend_recipes(id):
+    sql = text("SELECT * FROM recipes3 WHERE user_id=:user_id")
+    result = db.session.execute(sql, {"user_id":id})
+    recipes = result.fetchall()
+    return recipes

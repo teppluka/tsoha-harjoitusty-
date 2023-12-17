@@ -42,3 +42,16 @@ def register():
         db.session.commit()
 
     return
+
+def search(query):
+    sql = text("SELECT id, username FROM users3 WHERE username LIKE :query")
+    result = db.session.execute(sql, {"query":"%"+query+"%"})
+    users = result.fetchall()
+    if len(users) == 0:
+        return 0
+    return users
+
+def user(id):
+    sql = text("SELECT username FROM users3 WHERE id=:id")
+    result = db.session.execute(sql, {"id":id}).fetchone()
+    return result[0]

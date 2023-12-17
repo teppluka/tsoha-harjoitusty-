@@ -47,3 +47,15 @@ def register():
     if request.method == "POST":
         users.register()
         return redirect("/")
+
+@app.route("/search", methods=["GET"])
+def search():
+    query = request.args["query"]
+    userlist = users.search(query)
+    return render_template("search.html", userlist=userlist)
+
+@app.route("/user/<int:id>")
+def user(id):
+    username = users.user(id)
+    recipelist = recipes.friend_recipes(id)
+    return render_template("user.html", id=id, username=username, recipes=recipelist)
