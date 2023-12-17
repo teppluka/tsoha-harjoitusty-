@@ -16,7 +16,7 @@ def user_id():
 def login():
     username = request.form["username"]
     password = request.form["password"]
-    sql = text("SELECT id, password FROM users3 WHERE username=:username")
+    sql = text("SELECT id, password FROM users4 WHERE username=:username")
     result = db.session.execute(sql, {"username":username})
 
     user = result.fetchone()
@@ -30,21 +30,21 @@ def login():
 def register():
     username = request.form["username"]
     password = request.form["password"]
-    sql = text("SELECT COUNT(*) FROM users3 WHERE username=:username")
+    sql = text("SELECT COUNT(*) FROM users4 WHERE username=:username")
     result = db.session.execute(sql, {"username":username}).fetchone()
     if result[0] != 0:
         return redirect("/register")
     else:
         hash_value = generate_password_hash(password)
 
-        sql = text("INSERT INTO users3 (username, password) VALUES (:username, :password)")
+        sql = text("INSERT INTO users4 (username, password) VALUES (:username, :password)")
         db.session.execute(sql, {"username":username, "password":hash_value})
         db.session.commit()
 
     return
 
 def search(query):
-    sql = text("SELECT id, username FROM users3 WHERE username LIKE :query")
+    sql = text("SELECT id, username FROM users4 WHERE username LIKE :query")
     result = db.session.execute(sql, {"query":"%"+query+"%"})
     users = result.fetchall()
     if len(users) == 0:
@@ -52,6 +52,40 @@ def search(query):
     return users
 
 def user(id):
-    sql = text("SELECT username FROM users3 WHERE id=:id")
+    sql = text("SELECT username FROM users4 WHERE id=:id")
     result = db.session.execute(sql, {"id":id}).fetchone()
     return result[0]
+
+def friends():
+    sql = text("SELECT f.user2 id, u.username username FROM friends4 f JOIN users4 u ON f.user1=:id AND f.user2 = u.id")
+    result = db.session.execute(sql, {"id":user_id()}).fetchall()
+    return result
+
+def friend_requests():
+    sql = text("SELECT f.id r_id, f.sender id, u.username username FROM friendrequests4 f JOIN users4 u ON f.sender = u.id and f.receiver=:id AND f.visible = TRUE")
+    result= db.session.execute(sql, {"id":user_id()}).fetchall()
+    return result
+
+def send_request(id):
+    sql = text("SELECT COUNT(*) FROM friendrequests4 WHERE (sender=:sender AND receiver=:receiver) OR (sender=:receiver AND receiver=:sender) AND visible = TRUE")
+    result = db.session.execute(sql, {"sender":user_id(), "receiver":id}).fetchone()
+    if result[0] == 0:
+        sql = text("SELECT COUNT(*) FROM friends4 WHERE user1=:user1 AND user2=:user2")
+        result = db.session.execute(sql, {"user1":user_id(), "user2":id}).fetchone()
+        if result[0] == 0:
+            sql = text("INSERT INTO friendrequests4 (sender, receiver, visible) VALUES (:sender, :receiver, TRUE)")
+            db.session.execute(sql, {"sender":user_id(), "receiver":id})
+            db.session.commit()
+
+def accept(id, r_id):
+    sql = text("INSERT INTO friends4 (user1, user2) VALUES (:user1, :user2)")
+    db.session.execute(sql, {"user1":id, "user2":user_id()})
+    db.session.execute(sql, {"user1":user_id(), "user2":id})
+    sql = text("UPDATE friendrequests4 SET visible=FALSE WHERE id=:id")
+    db.session.execute(sql, {"id":r_id})
+    db.session.commit()
+
+def reject(id, r_id):
+    sql = text("UPDATE friendrequests4 SET visible=FALSE WHERE id=:id")
+    db.session.execute(sql, {"id":r_id})
+    db.session.commit()

@@ -1,0 +1,16 @@
+Kaveripyynnöt:
+<br>
+{% for request in requests %}
+<a href="/user/{{request.id}}">{{request.username}}</a>
+<br>
+<a href="/accept/{{request.id}}/{{request.r_id}}">Hyväksy</a>
+<a href="/reject/{{request.id}}/{{request.r_id}}">Hylkää</a>
+<br>
+<br>
+{% endfor %}
+Kaverit:
+<br>
+{% for friend in friends %}
+<a href="/user/{{friend.id}}">{{friend.username}}</a>
+<br>
+{% endfor %}

@@ -31,7 +31,8 @@ def login():
         return render_template("index.html")
     if request.method == "POST":       
         if not users.login():
-            return render_template("error.html")
+            message = "Väärä tunnus tai salasana"
+            return render_template("error.html", message=message)
         
     return redirect("/")
 
@@ -52,6 +53,9 @@ def register():
 def search():
     query = request.args["query"]
     userlist = users.search(query)
+    if userlist == 0:
+        message = "Käyttäjiä ei löytynyt"
+        return render_template("error.html", message=message)
     return render_template("search.html", userlist=userlist)
 
 @app.route("/user/<int:id>")
@@ -59,3 +63,24 @@ def user(id):
     username = users.user(id)
     recipelist = recipes.friend_recipes(id)
     return render_template("user.html", id=id, username=username, recipes=recipelist)
+
+@app.route("/friends")
+def friends():
+    requests = users.friend_requests()
+    friendlist = users.friends()
+    return render_template("friends.html", requests=requests, friends=friendlist)
+
+@app.route("/request/<int:id>")
+def send_request(id):
+    users.send_request(id)
+    return redirect("/friends")
+
+@app.route("/accept/<int:id>/<int:r_id>")
+def accept(id, r_id):
+    users.accept(id, r_id)
+    return redirect("/friends")
+
+@app.route("/reject/<int:id>/<int:r_id>")
+def reject(id, r_id):
+    users.reject(id, r_id)
+    return redirect("/friends")
